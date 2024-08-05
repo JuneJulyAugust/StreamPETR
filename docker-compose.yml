@@ -1,0 +1,30 @@
+# please export DOCKER_USER="$(id -u):$(id -g)" in .bashrc or .zshrc
+services:
+    dl_ubuntu_20.04:
+        container_name: dl_ubuntu_20.04_$USER
+        image: streampetr:ubuntu20.04-cuda11.1
+        user: $DOCKER_USER
+        build:
+            context: .
+            dockerfile: ./Ubuntu_20.04.Dockerfile
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          device_ids: ['0']
+                          capabilities: [gpu]
+        hostname: dl_ubuntu_2004
+        working_dir: /data
+        network_mode: "host"
+        privileged: true
+        tty: true
+        volumes:
+            - /etc/group:/etc/group:ro
+            - /etc/passwd:/etc/passwd:ro
+            - /etc/shadow:/etc/shadow:ro
+            - /etc/sudoers:/etc/sudoers:ro
+            - /etc/sudoers.d:/etc/sudoers.d:ro
+            - /data:/data
+            - /home/$USER:/home/$USER
+        entrypoint: ["/bin/bash"]
