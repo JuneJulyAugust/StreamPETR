@@ -39,7 +39,9 @@ RUN pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -
 
 RUN pip install flash-attn==0.2.2
 
-RUN mim install mmcv-full==1.6.0 mmdet==2.28.2 mmdet3d==1.0.0rc6
+RUN mim install mmcv-full==1.6.0 mmdet==2.28.2 mmdet3d==1.0.0rc6 mmsegmentation==0.30.0
+
+RUN pip install -U networkx>=2.5
 
 RUN apt-get clean autoclean
 RUN apt-get autoremove --yes
